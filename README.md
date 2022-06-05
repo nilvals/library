@@ -3,4 +3,4 @@
 
 * [Assignment](https://www.theodinproject.com/lessons/node-path-javascript-library)
 
-![](./assets/preview.gif)
+![](./assets/screenshot.png)
