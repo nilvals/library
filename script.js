@@ -1,44 +1,49 @@
-const main = document.querySelector(".main");
-const formContainer = document.querySelector(".form-container");
-const formBtn = document.querySelector(".form-btn")
-const form = document.querySelector("form");
-const submitBookBtn = document.querySelector(".submit-book-btn");
-const formCloseBtn = document.querySelector(".form-close-btn");
+"use strict";
+
+const main = document.querySelector(".main"); // Container for the books
+const formContainer = document.querySelector(".form-container"); // Container for the form
+const formBtn = document.querySelector(".form-btn") // Button for opening up the form
+const form = document.querySelector("form"); // Form
+const submitBookBtn = document.querySelector(".submit-book-btn"); // Button for submitting new book
+const formCloseBtn = document.querySelector(".form-close-btn"); // Button for closing the form
 
 const redColor = "#f87171";
-const greenColor = "#4ade80"
+const greenColor = "#4ade80";
 
-let enabled = false;
-let myLibrary = [];
+let enabled = false; // If form is open or closed
+let myLibrary = []; // Books are stored here
 
-// Constructors for the book object
-function Book(title, author, pages, read) {
-    this.title = title,
-    this.author = author,
-    this.pages = pages,
-    this.read = read;
+// Book class
+class Book {
+    constructor(title, author, pages, read) {
+       this.title = title;
+       this.author = author;
+       this.pages = pages;
+       this.read = read; 
+    }
 }
 
 // Display the book onto the page
 function addBookToLibrary(book) {
     myLibrary.push(book);
 
-    let card = document.createElement("div");
+    // Creates the book using information from the book object
+    const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.index = myLibrary.length - 1;
     main.appendChild(card);
 
-    let title = document.createElement("div");
+    const title = document.createElement("div");
     title.classList.add("title");
     title.textContent = book.title;
     card.appendChild(title);
 
-    let author = document.createElement("div");
+    const author = document.createElement("div");
     author.classList.add("author");
     author.textContent = "By: " + book.author;
     card.appendChild(author);
 
-    let pages = document.createElement("div");
+    const pages = document.createElement("div");
     pages.classList.add("pages");
 
     if (book.pages > 1) {
@@ -49,7 +54,7 @@ function addBookToLibrary(book) {
 
     card.appendChild(pages);
 
-    let read = document.createElement("div");
+    const read = document.createElement("div");
     read.classList.add("read");
 
     if (book.read) {
@@ -62,12 +67,13 @@ function addBookToLibrary(book) {
 
     card.appendChild(read);
 
-    let buttonContainer = document.createElement("div");
+    // Creates a button container for the buttons
+    const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("buttons");
     card.appendChild(buttonContainer);
 
     // button to change read status
-    let readBtn = document.createElement("img");
+    const readBtn = document.createElement("img");
     readBtn.classList.add("check");
 
     if (book.read == false) {
@@ -80,6 +86,7 @@ function addBookToLibrary(book) {
 
     buttonContainer.appendChild(readBtn);
 
+    // Changes the status of the book
     readBtn.addEventListener("click", () => {
         book.read = !book.read;
         
@@ -99,12 +106,13 @@ function addBookToLibrary(book) {
     })
 
     // button for deleting the book
-    let deleteBtn = document.createElement("img");
+    const deleteBtn = document.createElement("img");
     deleteBtn.classList.add("delete");
     deleteBtn.src = "./assets/delete.svg"
     deleteBtn.style.background = redColor;
     buttonContainer.appendChild(deleteBtn);
 
+    // Deletes the book and remove it from the myLibrary array
     deleteBtn.addEventListener("click", () => {
         card.remove();
         myLibrary[card.dataset.index] = undefined;
@@ -157,10 +165,3 @@ formCloseBtn.addEventListener("click", () => {
     formContainer.style.display = "none";
     enabled = false;
 })
-
-/* test
-for (let i = 1; i <= 10; i++) {
-    let book = new Book("Book " + i, "Author " + i, i * 100, Math.random() > 0.5);
-    addBookToLibrary(book);
-}
-*/
